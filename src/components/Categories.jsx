@@ -8,7 +8,7 @@ const Categories = ({category}) => {
     return (
         console.log("sc", selectedCategory, category),
         <div className="flex items-center mb-4">
-            <button className={`p-2 bg-slate-50 text-black ${category === selectedCategory && `bg-blue-400 text-white`}`} onClick={() => setSelectedCategory(category)}>
+            <button className={`p-2 ${category === selectedCategory ? `bg-blue-400 text-white` : `bg-slate-50 text-black` }`} onClick={() => setSelectedCategory(category)}>
                 {category}
             </button>
             {/* <input 
