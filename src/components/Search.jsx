@@ -1,5 +1,5 @@
 import {useContext} from 'react'
-
+import { ProductContext } from '../context/ProductContext'
 const Search = () => {
 
     const {search,setSearch} = useContext(ProductContext)
@@ -13,7 +13,7 @@ const Search = () => {
                 placeholder="Search by Product Name"
             />
         </div>
-  )
+    )
 }
 
 export default Search

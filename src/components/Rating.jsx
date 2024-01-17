@@ -11,7 +11,7 @@ const Rating = ({rating}) => {
     return (
         // console.log(selectedRating),
         <div onClick={()=>handelRating(rating)}>
-            <AiFillStar color={(rating > selectedRating) ?  "gray" : "yellow"} size={"xl"}/>
+            <AiFillStar color={(rating > selectedRating) ?  "gray" : "#F6BE00"}/>
         </div>
     )
 }

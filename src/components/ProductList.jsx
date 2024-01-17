@@ -1,24 +1,26 @@
 import {useContext,useCallback,useEffect} from 'react'
 import Product from './Product'
+import Search from './Search'
 import { ProductContext } from '../context/ProductContext'
 import { FilterContext } from '../context/FilterContext'
 import { Loading } from './Loading'
 
 const ProductList = () => {
-    const {productList,search,setSearch,loading,error,setProductList} = useContext(ProductContext)
-    const {selectedCategory,selectedRating, selectedPrice,selectedSort} = useContext(FilterContext)
+    const {productList,search,loading,error,setProductList} = useContext(ProductContext)
+    const {selectedCategory,setSelectedCategory,selectedRating, setSelectedRating,selectedPrice,setSelectedPrice,selectedSort} = useContext(FilterContext)
     
     useEffect(() => {
         sorting();
     }, [selectedSort])
-    
-    const filterByCategory = useCallback((product) => {
+
+
+    const filterByCategory = (product) => {
         if( !selectedCategory) {
             return product
         }else{
             return product.category === selectedCategory
         }
-    },[selectedCategory]);
+    };
     
     const filterByRating = (product) => {
         if( !selectedRating) {
@@ -59,7 +61,7 @@ const ProductList = () => {
         })
         setProductList(productListCopy)    
     };
-
+    
     if(loading) return <Loading/>
 
     if(error) return <div className='font-bold text-3xl text-red-500'> {error.message ? error.message : "There is an error!!"} </div>
@@ -67,14 +69,31 @@ const ProductList = () => {
     return (
         console.log(productList),
         <div className='flex-1'>
-            <div className='flex-1 justify-center align-center'>
-                <input
-                    className='mx-auto flex bg-slate-100 p-3 w-1/2 shadow-lg' 
-                    value={search} 
-                    onChange={(e)=> setSearch(e.target.value)} 
-                    type="text" 
-                    placeholder="Search by Product Name"
-                />
+            <Search/>
+            {/* show filters */}
+            <div className='flex justify-center align-center gap-1 relative'>
+                {
+                    selectedCategory &&    
+                    <div className='py-2 px-4 bg-white m-4 rounded-lg text-sm border-2 border-slate-200 relative'>
+                        {selectedCategory}
+                        <span onClick={()=>setSelectedCategory('')} className='absolute cursor-pointer text-red-600 font-bold text-sm rounded-full -top-2 -right-3 bg-red-200 px-3'>x</span>
+                    </div>
+                }
+                {
+                    selectedRating &&
+                    <div className='py-2 px-4 cursor-pointer bg-white m-4 rounded-lg text-sm border-2 border-slate-200 relative'>
+                        {selectedRating} star
+                        <span onClick={()=>setSelectedRating('')} className='absolute text-red-600 font-bold text-sm rounded-full -top-2 -right-3 bg-red-200 px-3'>x</span>
+                    </div>
+                }
+                {
+                    selectedPrice &&
+                    <div className='py-2 px-4 cursor-pointer bg-white m-4 rounded-lg text-sm border-2 border-slate-200 relative'>
+                        {selectedPrice.label}
+                        <span onClick={()=>setSelectedPrice('')} className='absolute text-red-600 font-bold text-sm rounded-full -top-2 -right-3 bg-red-200 px-3'>x</span>
+                    </div>
+                }
+                
             </div>
             <div className='p-4 m-4 grid md:grid-cols-2 lg:grid-cols-3 gap-4'>
 
